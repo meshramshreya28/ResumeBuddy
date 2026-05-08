@@ -1,0 +1,7 @@
+Flask
+PyPDF2
+python-docx
+nltk
+spacy
+Werkzeug
+reportlab

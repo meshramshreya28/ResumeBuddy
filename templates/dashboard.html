@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar glass">
+        
+        <h2>
+            <i class="fa-solid fa-file-waveform"></i>
+            ResumeBuddy
+        </h2>
+
+        <div class="nav">
+            <p><i class="fa-solid fa-chart-pie"></i> Overview</p>
+            <p><i class="fa-solid fa-bullseye"></i> ATS Score</p>
+            <p><i class="fa-solid fa-brain"></i> Skills</p>
+            <p><i class="fa-solid fa-file-lines"></i> Resume</p>
+            <p><i class="fa-solid fa-chart-column"></i> Analytics</p>
+        </div>
+
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+        <!-- TOP KPI ROW -->
+        <div class="topbar glass">
+
+            <div>
+                <h1>
+                    {% if role %}
+                    {{ role }} Resume Analysis
+                    {% else %}
+                    General Resume Analysis
+                    {% endif %}
+                </h1>
+                <p style="color:#94a3b8;">AI-powered resume insights</p>
+            </div>
+
+            <a href="/download-report">
+                <button class="btn">Download Report</button>
+            </a>
+
+        </div>
+
+        <!-- KPI CARDS -->
+        <div class="kpi-grid">
+
+            <div class="card glass center">
+                <h3>ATS Score</h3>
+                <div class="circle">{{ ats_score }}%</div>
+            </div>
+
+            <div class="card glass center">
+                <h3>Role Match</h3>
+                <div class="circle">{{ compatibility }}%</div>
+            </div>
+
+            <div class="card glass center">
+                <h3>Missing Skills</h3>
+                <div class="big-text">{{ missing_skills|length }}</div>
+            </div>
+
+        </div>
+
+        <div class="top-cards"></div>
+        
+        <div class="dashboard-grid"></div>
+
+        <!-- SECTION ANALYTICS -->
+        <div class="card glass full">
+            <h3>Section Breakdown</h3>
+
+            <div class="mini-grid">
+
+                <div class="mini">
+                    <h4>Education</h4>
+                    <p>{{ section_scores['Education'] }}%</p>
+                </div>
+
+                <div class="mini">
+                    <h4>Skills</h4>
+                    <p>{{ section_scores['Skills'] }}%</p>
+                </div>
+
+                <div class="mini">
+                    <h4>Projects</h4>
+                    <p>{{ section_scores['Projects'] }}%</p>
+                </div>
+
+                <div class="mini">
+                    <h4>Experience</h4>
+                    <p>{{ section_scores['Experience'] }}%</p>
+                </div>
+
+                <div class="mini">
+                    <h4>Certifications</h4>
+                    <p>{{ section_scores['Certifications'] }}%</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TWO COLUMN SECTION -->
+        <div class="two-col">
+
+            <div class="card glass">
+                <h3>Matched Skills</h3>
+                <ul>
+                    {% for s in matched_skills %}
+                    <li>{{ s }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="card glass">
+                <h3>Missing Skills</h3>
+                <ul>
+                    {% for s in missing_skills %}
+                    <li>{{ s }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- SUGGESTIONS -->
+        <div class="card glass full">
+            <h3>AI Suggestions</h3>
+            <ul>
+                {% for s in suggestions %}
+                <li>{{ s }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- RESUME -->
+        <div class="card glass full">
+            <h3>Resume Preview</h3>
+            <div class="preview">{{ resume_text }}</div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Chart.js -->
+ <script>
+const sectionScores = JSON.parse('{{ section_scores | tojson | safe }}');
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const atsScore = Number("{{ ats_score }}");
+const compatibility = Number("{{ compatibility }}");
+
+/* =======================
+   ATS Doughnut Chart
+======================= */
+
+const ctx = document.createElement('canvas');
+ctx.id = 'atsChart';
+document.querySelector('.top-cards').appendChild(ctx);
+
+const chartContext = ctx.getContext('2d');
+
+const gradient = chartContext.createLinearGradient(0,0,0,400);
+gradient.addColorStop(0, '#3b82f6');
+gradient.addColorStop(1, '#8b5cf6');
+
+new Chart(ctx, {
+
+    type: 'doughnut',
+
+    data: {
+        labels: ['ATS Score', 'Remaining'],
+        datasets: [{
+            data: [atsScore, 100 - atsScore],
+            backgroundColor: [gradient, 'rgba(255,255,255,0.08)'],
+            borderWidth: 0,
+            hoverOffset: 8
+        }]
+    },
+
+    options: {
+        responsive: true,
+        cutout: '75%',
+        plugins: {
+            legend: { labels: { color: 'white' } }
+        }
+    }
+});
+
+/* =======================
+   SECTION BAR CHART (FIXED)
+======================= */
+
+const sectionCtx = document.createElement("canvas");
+document.querySelector(".dashboard-grid").appendChild(sectionCtx);
+
+new Chart(sectionCtx, {
+
+    type: "bar",
+
+    data: {
+
+        labels: ["Education", "Skills", "Projects", "Experience", "Certifications"],
+
+        datasets: [{
+
+            label: "Section Score",
+
+            data: [
+                sectionScores.Education,
+                sectionScores.Skills,
+                sectionScores.Projects,
+                sectionScores.Experience,
+                sectionScores.Certifications
+            ],
+
+            backgroundColor: "#8b5cf6"
+        }]
+    },
+
+    options: {
+
+        responsive: true,
+
+        scales: {
+
+            y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: { color: "white" }
+            },
+
+            x: {
+                ticks: { color: "white" }
+            }
+        },
+
+        plugins: {
+            legend: {
+                labels: { color: "white" }
+            }
+        }
+    }
+});
+
+/* ===== SCORE COLORS ===== */
+
+const circles = document.querySelectorAll('.circle');
+
+circles.forEach(circle => {
+
+    const score = parseInt(circle.textContent);
+
+    if(score >= 80){
+
+        circle.style.background =
+        'linear-gradient(135deg,#22c55e,#16a34a)';
+
+    }
+
+    else if(score >= 50){
+
+        circle.style.background =
+        'linear-gradient(135deg,#facc15,#eab308)';
+
+    }
+
+    else{
+
+        circle.style.background =
+        'linear-gradient(135deg,#ef4444,#dc2626)';
+    }
+});
+
+</script>
+
+</body>
+</html>
