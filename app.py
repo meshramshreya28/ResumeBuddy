@@ -270,7 +270,6 @@ def download_report():
 
         as_attachment=True
     )
-
 import os
 
 if __name__ == "__main__":
