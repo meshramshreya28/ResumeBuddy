@@ -182,7 +182,9 @@ def analyze():
 @app.route('/download-report')
 def download_report():
 
-    pdf_file = 'resume_report.pdf'
+    import uuid
+    
+    pdf_file = f"resume_report_{uuid.uuid4().hex}.pdf"
 
     doc = SimpleDocTemplate(pdf_file)
 
