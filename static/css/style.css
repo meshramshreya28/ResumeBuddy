@@ -358,11 +358,10 @@ ul li{
     }
 
     .creator{
-        margin-left:0;
-        margin-top:4px;
-        font-size:12px;
-        padding:6px 12px;
-    }
+    margin-left:0;
+    font-size:11px;
+    padding:5px 12px;
+}
 
     /* HERO */
     .hero{
@@ -606,22 +605,15 @@ p,li{
 /* CREATOR TAG */
 
 .creator{
-
-    margin-left:30px;
-
-    padding:10px 16px;
-
-    border-radius:12px;
-
+    margin-left:16px;
+    padding:6px 14px;
+    border-radius:99px;
     background:rgba(139,92,246,0.15);
-
     border:1px solid rgba(139,92,246,0.3);
-
     color:#c4b5fd;
-
-    font-size:14px;
-
-    font-weight:600;
+    font-size:12px;
+    font-weight:500;
+    white-space:nowrap;
 }
 
 /* ===== HERO ===== */
