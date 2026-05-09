@@ -35,7 +35,7 @@ An AI-powered resume analyzer built with Python & Flask. Upload your resume and 
 
 > Dashboard with ATS Score, Skill Analysis & Charts
 
-*(Add your screenshots here)*
+<img width="947" height="434" alt="Screenshot 2026-05-09 113841" src="https://github.com/user-attachments/assets/76a610f0-1bcc-46c2-94f4-28230c13b05b" />
 
 ---
 
@@ -121,7 +121,7 @@ This app is deployed on **Render**. To deploy your own instance:
 ## 🙋‍♀️ Author
 
 **Shreya Meshram**  
-[LinkedIn](https://linkedin.com/in/yourprofile) · [GitHub](https://github.com/yourusername)
+[LinkedIn](https://www.linkedin.com/in/shreya-meshram28/) · [GitHub](https://github.com/meshramshreya-code)
 
 ---
 
