@@ -121,7 +121,7 @@ This app is deployed on **Render**. To deploy your own instance:
 ## 🙋‍♀️ Author
 
 **Shreya Meshram**  
-[LinkedIn](https://www.linkedin.com/in/shreya-meshram28/) · [GitHub](https://github.com/meshramshreya-code)
+[LinkedIn](https://www.linkedin.com/in/shreya-meshram28/) · [GitHub](https://github.com/meshramshreya28/ResumeBuddy)
 
 ---
 
