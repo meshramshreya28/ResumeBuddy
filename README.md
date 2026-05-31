@@ -2,7 +2,7 @@
 
 An AI-powered resume analyzer built with Python & Flask. Upload your resume and instantly get your ATS score, matched/missing skills, and smart improvement suggestions.
 
-🔗 **Live Demo:** [resumebuddy-3nc0.onrender.com/](https://resumebuddy-3nc0.onrender.com/)
+🔗 **Live Demo:** [https://resumebuddy-flzm.onrender.com/](https://resumebuddy-flzm.onrender.com/)
 
 ---
 
